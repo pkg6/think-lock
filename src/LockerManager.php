@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the tp5er/think-locker
+ * This file is part of the tp5er/think-lock
  *
  * (c) pkg6 <https://github.com/pkg6>
  *
@@ -22,7 +22,7 @@ use tp5er\think\lock\drivers\Redis;
 
 class LockerManager extends Manager
 {
-    protected $factory = null;
+    protected static $factory = null;
     /**
      * @var string[]
      */
@@ -36,13 +36,12 @@ class LockerManager extends Manager
      */
     public function factory()
     {
-        if ( ! is_null($this->factory)) {
-            return $this->factory;
+        if (is_null(static::$factory)) {
+            $driver = $this->driver();
+            static::$factory = new LockFactory(new $driver($this->app));
         }
-        $driver = $this->driver();
-        $this->factory = new LockFactory(new $driver($this->app));
 
-        return $this->factory;
+        return static::$factory;
     }
 
     /**
@@ -77,11 +76,10 @@ class LockerManager extends Manager
      * @param $method
      * @param $parameters
      *
-     * @return mixed|LockInterface
+     * @return LockInterface
      */
     public function __call($method, $parameters)
     {
         return $this->createLock(...$parameters);
     }
-
 }
