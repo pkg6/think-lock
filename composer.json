@@ -1,0 +1,38 @@
+{
+  "name": "tp5er/think-lock",
+  "description": "thinkphp lock",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zhiqiang",
+      "email": "zhiqiang2033@gmail.com"
+    }
+  ],
+  "require": {
+    "topthink/framework": "^6.0 || ^8.0",
+    "symfony/lock": "^5.0|^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "tp5er\\think\\lock\\": "src/"
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.9"
+  },
+  "scripts": {
+    "fixer": "vendor/bin/php-cs-fixer fix",
+    "try-fixer": "vendor/bin/php-cs-fixer fix --diff --dry-run"
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "tp5er\\think\\lock\\Service"
+      ],
+      "config": {
+        "lock": "config/lock.php"
+      }
+    }
+  }
+}
